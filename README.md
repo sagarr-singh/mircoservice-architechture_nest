@@ -55,3 +55,5 @@ cd packages/frontend
 yarn install
 npm run dev
 
+-- You can see SWAGGER UI running on this address
+http://localhost:3000/docs#/
