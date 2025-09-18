@@ -25,3 +25,33 @@ Run these in `psql`:
 ```sql
 CREATE DATABASE products_db;
 CREATE DATABASE orders_db;
+
+
+🏃‍♀️🏃‍♀️🏃‍♀️🏃‍♀️🏃‍♀️🏃‍♀️🏃🏃‍♀️----------- Run each services of package like this
+
+first do yarn install in root
+
+-- Terminal 1
+# API Gateway
+cd packages/api-gateway
+yarn install
+yarn start:dev
+
+-- Terminal 2
+# Orders Service
+cd packages/orders-service
+yarn install
+yarn start:dev
+
+-- Terminal 3
+# Products Service
+cd packages/products-service
+yarn install
+yarn start:dev
+
+-- Terminal 4
+# Frontend
+cd packages/frontend
+yarn install
+npm run dev
+
