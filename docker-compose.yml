@@ -1,0 +1,123 @@
+# version: "3.9"
+
+# services:
+#   postgres:
+#     image: postgres:15-alpine
+#     container_name: postgres
+#     restart: unless-stopped
+#     environment:
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#       POSTGRES_DB: ${POSTGRES_DB}
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     networks:
+#       - msnet
+
+#   api-gateway:
+#     build:
+#       context: ./packages/api-gateway
+#       dockerfile: Dockerfile
+#     env_file: .env
+#     depends_on:
+#       - orders-service
+#       - products-service
+#     ports:
+#       - "3000:3000"
+#     networks:
+#       - msnet
+
+#   orders-service:
+#     build:
+#       context: ./packages/orders-service
+#       dockerfile: Dockerfile
+#     env_file: .env
+#     environment:
+#       - ORDERS_DB_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+#       - ORDERS_TCP_PORT=${ORDERS_TCP_PORT}
+#     depends_on:
+#       - postgres
+#     networks:
+#       - msnet
+
+#   products-service:
+#     build:
+#       context: ./packages/products-service
+#       dockerfile: Dockerfile
+#     env_file: .env
+#     environment:
+#       - PRODUCTS_DB_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+#       - PRODUCTS_TCP_PORT=${PRODUCTS_TCP_PORT}
+#     depends_on:
+#       - postgres
+#     networks:
+#       - msnet
+
+#         # frontend:
+#   #   build:
+#   #     context: ./packages/frontend
+#   #     dockerfile: Dockerfile
+#   #   env_file: ./.env
+#   #   environment:
+#   #     - NEXT_PUBLIC_API_GATEWAY=http://api-gateway:3000/api
+#   #     - NEXT_PUBLIC_API_KEY=${API_GATEWAY_KEY}
+#   #   ports:
+#   #     - "3001:3000"
+#   #   depends_on:
+#   #     - api-gateway
+#   #   networks:
+#   #     - msnet
+
+# networks:
+#   msnet:
+
+# volumes:
+#   postgres_data:
+
+
+
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  products-service:
+    build: ./packages/products-service
+    command: yarn start
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    restart: always
+
+  orders-service:
+    build: ./packages/orders-service
+    command: yarn start
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres
+    restart: always
+
+  api-gateway:
+    build: ./packages/api-gateway
+    command: yarn start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - products-service
+      - orders-service
+    restart: always
+
+volumes:
+  pgdata:

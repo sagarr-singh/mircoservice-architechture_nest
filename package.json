@@ -1,0 +1,18 @@
+{
+  "name": "microservices-monorepo-backend",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start:dev:products": "yarn workspace products-service start:dev",
+    "start:dev:orders": "yarn workspace orders-service start:dev",
+    "start:dev:gateway": "yarn workspace api-gateway start:dev",
+    "start:dev:frontend": "yarn workspace frontend dev",
+    "build": "yarn workspaces run build",
+    "docker:up": "docker compose up --build"
+  },
+  "dependencies": {
+    "yarn": "^1.22.22"
+  }
+}
