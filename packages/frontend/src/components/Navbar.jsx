@@ -1,12 +1,27 @@
 import { Link } from 'react-router-dom';
+import brandlogo from ".././assets/brand-logo.png"
 
 export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
       <div className="container-fluid px-5 d-flex justify-content-between align-items-center">
 
-        <Link to="/" className="navbar-brand fw-bold text-primary" style={{ fontSize: '1.5rem' }}>
-          Microservice Products & Orders
+        <Link
+          to="/"
+          className="navbar-brand d-flex align-items-center"
+          style={{ fontSize: '1.4rem', fontWeight: '600', color: '#007bff' }} // adjust color if needed
+        >
+          <img
+            src={brandlogo}
+            alt="Logo"
+            style={{
+              height: '40px',
+              width: 'auto',
+              marginRight: '10px',
+              objectFit: 'contain'
+            }}
+          />
+          <span className='align-items-center justify-content-center'>Microservice Products & Orders</span>
         </Link>
 
         <div className="d-flex gap-4">
